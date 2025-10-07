@@ -4,11 +4,13 @@ This is a FastAPI backend that provides API endpoints for the Berry React Admin 
 
 ## Features
 
-- **GET /api/hello** - Returns a greeting message
-- **POST /api/hello** - Accepts a message and echoes it back
+- **GET /api/hello** - Returns the greeting message stored in the database
+- **POST /api/hello** - Updates the greeting message in the database and returns the updated message
+- **PATCH /api/hello** - Updates the greeting message in the database and returns the updated message (same as POST)
 - **GET /api/users** - Returns a list of sample users
 - **POST /api/users** - Creates a new user and adds it to the in-memory list
 - CORS support for `http://localhost:3000` (React frontend)
+- SQLite database for persistent hello message storage
 
 ## Prerequisites
 
@@ -56,7 +58,7 @@ The server will start at `http://localhost:8000`
 
 ### GET /api/hello
 
-Returns a greeting message.
+Returns the greeting message stored in the database.
 
 **Response:**
 ```json
@@ -72,7 +74,7 @@ curl http://localhost:8000/api/hello
 
 ### POST /api/hello
 
-Accepts a message and echoes it back.
+Updates the greeting message in the database and returns the updated message. This endpoint now persists the message to the database rather than just echoing it back.
 
 **Request Body:**
 ```json
@@ -93,6 +95,31 @@ Accepts a message and echoes it back.
 curl -X POST http://localhost:8000/api/hello \
   -H "Content-Type: application/json" \
   -d '{"message": "Hello from the client!"}'
+```
+
+### PATCH /api/hello
+
+Updates the greeting message in the database and returns the updated message. This endpoint has the same behavior as POST /api/hello.
+
+**Request Body:**
+```json
+{
+  "message": "Your custom message"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Your custom message"
+}
+```
+
+**Example:**
+```bash
+curl -X PATCH http://localhost:8000/api/hello \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Updated message!"}'
 ```
 
 ### GET /api/users
